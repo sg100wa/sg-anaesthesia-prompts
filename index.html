@@ -118,12 +118,12 @@
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
 
 Create a table with these EXACT column headers:
-| Title | First Name | Last Name | DOB || Address | Suburb | State | Postcode | Phone | Email | Procedure | Medicare No | Medicare | Start Time | End Time | Bill Type | Health Insurance | HF Number | Workcover Name | Workcover Claim No | DVA No |
+| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | Notes | 
 
 Requirements:
 - Each patient sticker = one row
 - DOB format: DD/MM/YYYY
-- If information is missing, write "Not visible" in that cell
+- If information is missing, leave that cell blank
 - Medicare numbers should be exactly as shown (10 digits + letter)
 - Health fund names should be full official names (e.g., "Medibank Private" not "Medibank")
 - Keep member numbers exactly as shown on sticker
