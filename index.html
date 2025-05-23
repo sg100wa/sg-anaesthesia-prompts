@@ -119,6 +119,8 @@
 Extract ALL patient data from these medical stickers and create a comprehensive table.
 MANDATORY: Extract EVERY piece of information visible on each sticker, including:
 
+Patient First name
+Ptient Surname
 Patient names (full name as shown)
 Medicare numbers (10 digits + check digit)
 Date of birth (DD/MM/YYYY format)
@@ -127,12 +129,9 @@ Health fund member numbers (exactly as shown, including letters/suffixes)
 Age and gender
 Full addresses
 Doctor/surgeon names
-Unit record (UR) numbers
-Admission (ADM) numbers
-Any expiry dates or reference numbers
 
 Table format with these EXACT headers:
-| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | UR Number | ADM Number | Notes |
+| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon| Notes |
 Requirements:
 
 One row per patient sticker
