@@ -116,31 +116,54 @@
         <div class="prompt-box">
             <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
-Extract ALL patient data from these medical stickers and create a comprehensive table.
-MANDATORY: Extract EVERY piece of information visible on each sticker, including:
 
-Patient First name
-Ptient Surname
-Patient names (full name as shown)
-Medicare numbers (10 digits + check digit)
-Date of birth (DD/MM/YYYY format)
-Health fund/insurance details (full company names like HBF, Medibank Private, etc.)
-Health fund member numbers (exactly as shown, including letters/suffixes)
-Age and gender
-Full addresses
-Doctor/surgeon names
+EXTRACT ALL patient data from medical stickers and create a table with these EXACT column headers:
+| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | Notes |
+CRITICAL REQUIREMENTS:
+Medicare Numbers:
 
-Table format with these EXACT headers:
-| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon| Notes |
-Requirements:
+Format: XXXXXXXXXX/X (10 digits + slash + 1 check digit)
+Example: 4424523051/1
+The UR field on stickers shows the first 6 digits only
+Use barcode areas and full number sequences to extract complete 11-digit number
+ALWAYS include the "/" separator before the check digit
+
+Patient Information Extraction:
+
+Patient Name: Full name as printed (First Middle Last)
+DOB: DD/MM/YYYY format exactly as shown
+Gender: M or F (look for age/gender indicators like "17Y/M")
+Health Fund:
+
+Extract full fund name (HBF, Medibank, NIB, etc.)
+Include "PVT" prefix if shown (e.g., "PVT HCF", "PVT CBH")
+
+
+Member Number: Health fund membership number (varies in format)
+Address: Complete address including suburb, state, postcode
+Surgeon: Doctor name (usually after "Dr:" field)
+
+Data Quality Standards:
 
 One row per patient sticker
 Leave cells blank ONLY if information is genuinely not visible
-Include ALL reference numbers and codes visible on stickers
-In Notes column: mention any partially visible or unclear text
-Double-check you haven't missed any visible information before submitting
+In Notes column: Include UR numbers, ADM numbers, MC numbers with expiry dates, and any unclear text
+Double-check Medicare number format includes the slash separator
 
-Make the table Excel/Xero-ready for direct copy-paste.
+Table Format:
+
+Make table Excel/Xero-ready for direct copy-paste
+Use markdown table format
+Ensure consistent formatting across all rows
+
+VERIFICATION CHECKLIST:
+□ Medicare numbers include /X check digit format
+□ All visible patient information captured
+□ Health fund names include PVT prefix where shown
+□ DOB in DD/MM/YYYY format
+□ Complete addresses with postcodes
+□ Notes column includes reference numbers
+Extract every piece of visible information - missing data reduces billing accuracy for medical practice management.
 
 </div>
             <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
