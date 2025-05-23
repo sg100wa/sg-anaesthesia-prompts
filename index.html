@@ -118,36 +118,41 @@
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
 
 EXTRACT ALL patient data from medical stickers and create a table with these EXACT column headers:
-| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | Notes |
+| First Name | Surname | Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | Notes |
 CRITICAL REQUIREMENTS:
+Name Parsing:
+
+Surname: First line of patient name (appears at top)
+First Name: Subsequent name lines (given names/middle names)
+Patient Name: Given name & Surname
+
 Medicare Numbers:
 
 Format: XXXXXXXXXX/X (10 digits + slash + 1 check digit)
 Example: 4424523051/1
-The UR field on stickers shows the first 6 digits only
-Use barcode areas and full number sequences to extract complete 11-digit number
+The UR field shows only the first 6 digits
+Use barcode areas and number sequences to extract complete 11-digit Medicare number
 ALWAYS include the "/" separator before the check digit
 
 Patient Information Extraction:
 
-Patient Name: Full name as printed (First Middle Last)
 DOB: DD/MM/YYYY format exactly as shown
-Gender: M or F (look for age/gender indicators like "17Y/M")
+Gender: M or F (extract from age/gender indicators like "17Y/M")
 Health Fund:
 
-Extract full fund name (HBF, Medibank, NIB, etc.)
+Extract full fund name (HBF, Medibank, NIB, HCF, CBH, etc.)
 Include "PVT" prefix if shown (e.g., "PVT HCF", "PVT CBH")
 
 
 Member Number: Health fund membership number (varies in format)
-Address: Complete address including suburb, state, postcode
+Address: Complete address including street, suburb, state, postcode
 Surgeon: Doctor name (usually after "Dr:" field)
 
 Data Quality Standards:
 
 One row per patient sticker
 Leave cells blank ONLY if information is genuinely not visible
-In Notes column: Include UR numbers, ADM numbers, MC numbers with expiry dates, and any unclear text
+Notes column: Include UR numbers, ADM numbers, MC numbers with expiry dates, age indicators, and any reference numbers
 Double-check Medicare number format includes the slash separator
 
 Table Format:
@@ -157,12 +162,13 @@ Use markdown table format
 Ensure consistent formatting across all rows
 
 VERIFICATION CHECKLIST:
+□ Surname extracted from first line of name
 □ Medicare numbers include /X check digit format
 □ All visible patient information captured
 □ Health fund names include PVT prefix where shown
 □ DOB in DD/MM/YYYY format
 □ Complete addresses with postcodes
-□ Notes column includes reference numbers
+□ Notes column includes all reference numbers and identifiers
 Extract every piece of visible information - missing data reduces billing accuracy for medical practice management.
 
 </div>
