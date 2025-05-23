@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SG Anaesthesia AI Prompts</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .prompt-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+        .prompt-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .prompt-text {
+            line-height: 1.6;
+            color: #333;
+            font-size: 14px;
+            white-space: pre-line;
+        }
+        .copy-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .copy-btn:hover {
+            background: #0056b3;
+        }
+        .copy-btn:active {
+            background: #28a745;
+        }
+        .usage-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .quick-link {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #1565c0;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .quick-link:hover {
+            background: #bbdefb;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 SG Anaesthesia Pty Ltd</h1>
+        <div class="subtitle">AI-Powered Practice Automation</div>
+        
+        <div class="usage-note">
+            <strong>📱 How to use:</strong> Click "Copy Prompt" → Open ChatGPT/Claude mobile app → Paste prompt → Add your photo → Get structured data for Xero!
+        </div>
+
+        <div class="prompt-box">
+            <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
+            <div class="prompt-text" id="extractionPrompt">Please extract patient data from these medical stickers and format it as structured data for billing purposes. 
+
+For each patient sticker visible, please provide:
+- Patient Name
+- Medicare Number  
+- Date of Birth (DD/MM/YYYY)
+- Health Fund Name
+- Health Fund Member Number
+- Any additional identifying information
+
+Format the output as a clean table that I can easily copy into Xero for invoice creation. If any information is unclear or missing, please note it.</div>
+            <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
+        </div>
+
+        <div class="prompt-box">
+            <div class="prompt-title">💰 Invoice Description Generator</div>
+            <div class="prompt-text" id="invoicePrompt">Please help me create professional invoice descriptions for anaesthesia services. Based on the patient details and procedure information I provide, generate:
+
+- Professional service description
+- Appropriate billing codes (if applicable)
+- Medicare item numbers (if relevant)
+- Health fund claiming details
+
+Format it ready for Xero invoice entry. Patient details: [ADD PATIENT INFO HERE]</div>
+            <button class="copy-btn" onclick="copyToClipboard('invoicePrompt')">📋 Copy Prompt</button>
+        </div>
+
+        <div class="prompt-box">
+            <div class="prompt-title">🔍 Health Fund Verification</div>
+            <div class="prompt-text" id="healthFundPrompt">Please help me verify and format health fund information for accurate billing:
+
+Health Fund Details: [PASTE EXTRACTED INFO HERE]
+
+Please provide:
+- Correct health fund name formatting
+- Typical claiming procedures for this fund
+- Any special billing requirements
+- Estimated processing timeframes
+- Contact information for queries</div>
+            <button class="copy-btn" onclick="copyToClipboard('healthFundPrompt')">📋 Copy Prompt</button>
+        </div>
+
+        <div class="quick-links">
+            <a href="https://login.xero.com" class="quick-link" target="_blank">🔗 Xero Login</a>
+            <a href="https://chat.openai.com" class="quick-link" target="_blank">🤖 ChatGPT</a>
+            <a href="https://claude.ai" class="quick-link" target="_blank">🧠 Claude</a>
+            <a href="https://www.servicesaustralia.gov.au/medicare-card-help" class="quick-link" target="_blank">🏥 Medicare Checker</a>
+        </div>
+
+        <div class="footer">
+            SG Anaesthesia Pty Ltd | Perth, WA | AI Practice Automation Phase 2<br>
+            Last Updated: May 2025 | Bookmark this page for quick access
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyFeedback(elementId);
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopyFeedback(elementId);
+                } catch (err) {
+                    console.error('Copy failed:', err);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showCopyFeedback(elementId) {
+            const button = document.querySelector(`#${elementId} + .copy-btn`);
+            const originalText = button.textContent;
+            button.textContent = '✅ Copied!';
+            button.style.background = '#28a745';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#007bff';
+            }, 2000);
+        }
+
+        // Add swipe-to-refresh for mobile
+        let startY = 0;
+        document.addEventListener('touchstart', e => {
+            startY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', e => {
+            const currentY = e.touches[0].clientY;
+            if (startY < currentY && window.scrollY === 0) {
+                // Optional: Add pull-to-refresh functionality
+            }
+        });
+    </script>
+</body>
+</html>
