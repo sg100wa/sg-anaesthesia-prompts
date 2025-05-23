@@ -117,60 +117,169 @@
             <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
 
-EXTRACT ALL patient data from medical stickers and create a table with these EXACT column headers:
+# AUSTRALIAN MEDICAL STICKER DATA EXTRACTION PROMPT v2.0
+
+## CORE INSTRUCTION
+Extract ALL patient data from medical stickers and create a table with these EXACT column headers:
 | First Name | Surname | Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | Notes |
-CRITICAL REQUIREMENTS:
-Name Parsing:
 
-Surname: First line of patient name (appears at top)
-First Name: Subsequent name lines (given names/middle names)
-Patient Name: Given name & Surname
+---
 
-Medicare Numbers:
+## CRITICAL NAME PARSING STRATEGY
 
-Format: XXXXXXXXXX/X (10 digits + slash + 1 check digit)
-Example: 4424523051/1
-The UR field shows only the first 6 digits
-Use barcode areas and number sequences to extract complete 11-digit Medicare number
-ALWAYS include the "/" separator before the check digit
+### STEP 1: LOCATE THE PRIMARY NAME SECTION
+- **Identify the main patient name block** (usually largest text, bold, or clearly separated from other data)
+- **Ignore secondary references** (like "Dr:" labels, contact names, guarantor info)
+- **Focus on the patient identifier section** only
 
-Patient Information Extraction:
+### STEP 2: DETERMINE NAME FORMAT PATTERN
+**Australian medical systems typically use these formats:**
 
-DOB: DD/MM/YYYY format exactly as shown
-Gender: M or F (extract from age/gender indicators like "17Y/M")
-Health Fund:
+1. **SURNAME, FIRST MIDDLE** (most common)
+   - Example: "SMITH, JOHN DAVID" → Surname: SMITH, First Name: JOHN DAVID
 
-Extract full fund name (HBF, Medibank, NIB, HCF, CBH, etc.)
-Include "PVT" prefix if shown (e.g., "PVT HCF", "PVT CBH")
+2. **SURNAME** (line 1) **FIRST MIDDLE** (line 2)
+   - Example: Line 1: "SMITH" Line 2: "JOHN DAVID" → Surname: SMITH, First Name: JOHN DAVID
 
+3. **FIRST MIDDLE SURNAME** (single line, less common)
+   - Example: "JOHN DAVID SMITH" → Surname: SMITH, First Name: JOHN DAVID
 
-Member Number: Health fund membership number (varies in format)
-Address: Complete address including street, suburb, state, postcode
-Surgeon: Doctor name (usually after "Dr:" field)
+### STEP 3: APPLY PARSING LOGIC
+**Priority Order for Name Identification:**
 
-Data Quality Standards:
+1. **COMMA RULE** (highest priority): If comma present, text before comma = Surname, text after = First Name(s)
+2. **LINE BREAK RULE**: If multi-line with no comma, first line is typically Surname in Australian systems
+3. **CONTEXT CLUES**: Look for labels like "Family Name:", "Surname:", "Given Name:"
+4. **CULTURAL AWARENESS**: Consider multicultural Australian naming conventions (hyphenated names, multiple given names)
 
-One row per patient sticker
-Leave cells blank ONLY if information is genuinely not visible
-Notes column: Include UR numbers, ADM numbers, MC numbers with expiry dates, age indicators, and any reference numbers
-Double-check Medicare number format includes the slash separator
+### STEP 4: VALIDATION CHECKS
+- **Does the parsing make logical sense?** (Common Australian surnames vs given names)
+- **Are there obvious contradictions?** (e.g., clearly feminine name parsed as masculine)
+- **Cross-reference with other patient data** (age/gender indicators)
 
-Table Format:
+---
 
-Make table Excel/Xero-ready for direct copy-paste
-Use markdown table format
-Ensure consistent formatting across all rows
+## MEDICARE NUMBER EXTRACTION
 
-VERIFICATION CHECKLIST:
-□ Surname extracted from first line of name
-□ Medicare numbers include /X check digit format
-□ All visible patient information captured
-□ Health fund names include PVT prefix where shown
-□ DOB in DD/MM/YYYY format
-□ Complete addresses with postcodes
-□ Notes column includes all reference numbers and identifiers
-Extract every piece of visible information - missing data reduces billing accuracy for medical practice management.
+### STANDARD FORMAT: XXXXXXXXXX/X
+- **10 digits + forward slash + 1 check digit**
+- **Total length: 12 characters including slash**
 
+### LOCATION STRATEGIES:
+1. **Direct Medicare labels**: "Medicare:", "MC:", "Medicare No:"
+2. **Barcode sections**: Numbers below/above barcodes
+3. **UR numbers**: Often contain first 6-10 digits of Medicare number
+4. **Reference numbers**: May be partial Medicare numbers
+5. **Cross-reference**: Compare similar number patterns across sticker sections
+
+### VALIDATION:
+- Must be exactly 11 characters (10 digits + slash + 1 digit)
+- Slash must be in position 11
+- No letters or special characters except the slash
+
+---
+
+## COMPREHENSIVE DATA EXTRACTION
+
+### DATE OF BIRTH PATTERNS:
+- DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY
+- "Born:", "DOB:", "Date of Birth:"
+- Age calculations (extract from "25Y/M" format if DOB not visible)
+
+### GENDER IDENTIFICATION:
+- M/F, Male/Female, (M)/(F)
+- Age indicators: "25Y/M", "30Y/F"
+- Title clues: Mr/Mrs/Ms (use cautiously)
+
+### HEALTH FUND DETECTION:
+**Australian Private Health Insurers:**
+- HBF, Medibank, BUPA, NIB, HCF, Peoplecare, Defence Health
+- Look for: Fund name, member numbers, policy numbers
+- "Private", "PHI", or health fund logos
+
+### ADDRESS EXTRACTION:
+- **Australian format**: Street, Suburb, State, Postcode
+- **State abbreviations**: WA, NSW, VIC, QLD, SA, TAS, NT, ACT
+- **Postcode**: 4-digit number
+- **Unit/apartment numbers**: Look for "U", "UNIT", apartment numbers
+
+### MEDICAL PROFESSIONAL IDENTIFICATION:
+- "Dr:", "Doctor:", "Surgeon:", "Consultant:"
+- Name formats: "Dr. SMITH", "SMITH, Dr", "Dr JOHN SMITH"
+- Specialty indicators: "Anaesthetist", "Surgeon", etc.
+
+---
+
+## ADVANCED EXTRACTION TECHNIQUES
+
+### BARCODE INTEGRATION:
+- Numbers below barcodes often contain patient identifiers
+- UR numbers frequently encode Medicare number portions
+- ADM numbers may correlate with health fund member numbers
+
+### CROSS-REFERENCING:
+- **Verify consistency**: Does age match DOB? Gender indicators align?
+- **Number patterns**: Do similar numbers appear in multiple locations?
+- **Address validation**: Do suburb and postcode match Australian standards?
+
+### AMBIGUITY HANDLING:
+- **Uncertain name parsing**: Note "Name order uncertain - verify with source"
+- **Partial data**: Extract what's available, note missing fields
+- **Multiple interpretations**: Choose most logical based on Australian healthcare conventions
+- **Contradictory information**: Flag discrepancies in Notes column
+
+---
+
+## QUALITY CONTROL CHECKLIST
+
+### PRE-EXTRACTION:
+□ Identified main patient name section (not doctor/contact names)
+□ Located all potential data fields on sticker
+□ Noted any unusual formatting or layout
+
+### POST-EXTRACTION:
+□ **Name Logic Check**: Surname/first name assignment makes sense
+□ **Medicare Format**: Follows XXXXXXXXXX/X pattern exactly
+□ **Australian Address**: State/postcode combinations are valid
+□ **Data Consistency**: Age, gender, dates align logically
+□ **Complete Capture**: All visible patient data extracted
+□ **Uncertainty Documentation**: Ambiguous fields noted in Notes
+
+---
+
+## ERROR PREVENTION
+
+### COMMON MISTAKES TO AVOID:
+- **Mixing doctor names with patient names**
+- **Reversing surname/first name without comma indicators**
+- **Truncating Medicare numbers or adding extra digits**
+- **Confusing UR numbers with Medicare numbers**
+- **Mixing up multiple patients on same sticker sheet**
+
+### VERIFICATION STEPS:
+1. **Re-read the original sticker** after extraction
+2. **Check name parsing** against comma/line break rules
+3. **Validate Medicare number** format and length
+4. **Confirm address** follows Australian format
+5. **Review Notes** for any flagged uncertainties
+
+---
+
+## OUTPUT FORMAT REQUIREMENTS
+
+### TABLE STRUCTURE:
+- Use exact column headers as specified
+- One row per patient
+- Fill empty fields with "N/A" if data not available
+- Use Notes column for uncertainties and additional context
+
+### NOTES COLUMN USAGE:
+- Formatting details: "Name order uncertain"
+- Additional identifiers: "UR: 123456", "ADM: 789012"
+- Data quality flags: "Medicare number partially obscured"
+- Context information: Age calculations, reference numbers
+
+**GOAL**: Maximum accuracy for Australian anaesthesia practice billing and patient management systems.
 </div>
             <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
         </div>
