@@ -1,3 +1,18 @@
+
+Gemini
+What kind of things can Gemini do in Google Drive?
+Gemini in Google Drive can:
+Summarize a long document or an entire folder so you can quickly get the main points.
+Discuss a topic that requires synthesizing information from one or more files in your Drive, either across all of your files or within a specific folder.
+Retrieve quick facts about a project or topic without the need to find and read the relevant documents.
+Create new Google files and folders.
+Here are some resources to learn more about Gemini in Google Drive:
+Collaborate with Gemini in Google Drive (Workspace Labs) (https://support.google.com/drive/answer/14217860?hl=en)
+Collaborate with Gemini (https://support.google.com/drive/answer/14356148?hl=en)
+Introducing new ways Gemini in Workspace helps you do your best work (https://workspace.google.com/blog/product-announcements/new-ways-to-do-your-best-work)
+AI Tools for Business - Google Workspace (https://workspace.google.com/solutions/ai/)
+You're on a limited trial of Gemini in Gmail, Docs and more. Upgrade now
+Gemini for Workspace can make mistakes, including about people, so double-check it. Learn more
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,17 +129,21 @@
 
         <div class="prompt-box">
             <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
-            <div class="prompt-text" id="extractionPrompt">Please extract patient data from these medical stickers and format it as structured data for billing purposes. 
+            <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
 
-For each patient sticker visible, please provide:
-- Patient Name
-- Medicare Number  
-- Date of Birth (DD/MM/YYYY)
-- Health Fund Name
-- Health Fund Member Number
-- Any additional identifying information
+Create a table with these EXACT column headers:
+| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Notes |
 
-Format the output as a clean table that I can easily copy into Xero for invoice creation. If any information is unclear or missing, please note it.</div>
+Requirements:
+- Each patient sticker = one row
+- DOB format: DD/MM/YYYY
+- If information is missing, write "Not visible" in that cell
+- Medicare numbers should be exactly as shown (10 digits + letter)
+- Health fund names should be full official names (e.g., "Medibank Private" not "Medibank")
+- Keep member numbers exactly as shown on sticker
+- In Notes column, mention any unclear or partially visible text
+
+Make the table copy-paste friendly for Excel/Xero entry.</div>
             <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
         </div>
 
