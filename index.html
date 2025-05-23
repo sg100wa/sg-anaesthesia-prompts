@@ -116,20 +116,34 @@
         <div class="prompt-box">
             <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
+Extract ALL patient data from these medical stickers and create a comprehensive table.
+MANDATORY: Extract EVERY piece of information visible on each sticker, including:
 
-Create a table with these EXACT column headers:
-| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | Notes | 
+Patient names (full name as shown)
+Medicare numbers (10 digits + check digit)
+Date of birth (DD/MM/YYYY format)
+Health fund/insurance details (full company names like HBF, Medibank Private, etc.)
+Health fund member numbers (exactly as shown, including letters/suffixes)
+Age and gender
+Full addresses
+Doctor/surgeon names
+Unit record (UR) numbers
+Admission (ADM) numbers
+Any expiry dates or reference numbers
 
+Table format with these EXACT headers:
+| Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | UR Number | ADM Number | Notes |
 Requirements:
-- Each patient sticker = one row
-- DOB format: DD/MM/YYYY
-- If information is missing, leave that cell blank
-- Medicare numbers should be exactly as shown (10 digits + letter)
-- Health fund names should be full official names (e.g., "Medibank Private" not "Medibank")
-- Keep member numbers exactly as shown on sticker
-- In Notes column, mention any unclear or partially visible text
 
-Make the table copy-paste friendly for Excel/Xero entry.</div>
+One row per patient sticker
+Leave cells blank ONLY if information is genuinely not visible
+Include ALL reference numbers and codes visible on stickers
+In Notes column: mention any partially visible or unclear text
+Double-check you haven't missed any visible information before submitting
+
+Make the table Excel/Xero-ready for direct copy-paste.
+
+</div>
             <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
         </div>
 
