@@ -66,6 +66,14 @@
         .copy-btn:active {
             background: #28a745;
         }
+        .quick-copy-btn {
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+        }
+        .quick-copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,123,255,0.4);
+        }
         .usage-note {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
@@ -110,6 +118,16 @@
         
         <div class="usage-note">
             <strong>📱 How to use:</strong> Click "Copy Prompt" → Open ChatGPT/Claude mobile app → Paste prompt → Add your photo/document → Get structured data for Xero!
+        </div>
+
+        <div class="quick-copy-section">
+            <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">🚀 Quick Copy Prompts</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
+                <button class="copy-btn quick-copy-btn" onclick="copyToClipboard('extractionPrompt')" style="margin: 0; padding: 15px;">📋 Patient Stickers</button>
+                <button class="copy-btn quick-copy-btn" onclick="copyToClipboard('theatrePrompt')" style="margin: 0; padding: 15px;">🏥 Theatre Lists</button>
+                <button class="copy-btn quick-copy-btn" onclick="copyToClipboard('invoicePrompt')" style="margin: 0; padding: 15px;">💰 Invoice Generator</button>
+                <button class="copy-btn quick-copy-btn" onclick="copyToClipboard('healthFundPrompt')" style="margin: 0; padding: 15px;">🔍 Health Fund Check</button>
+            </div>
         </div>
 
         <div class="prompt-box">
@@ -165,7 +183,6 @@ Designed specifically for Australian medical billing requirements
 Covers Medicare and private health insurance data extraction
 Can be adapted for different medical practice management systems
 </div>
-            <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
         </div>
 
         <div class="prompt-box">
@@ -203,11 +220,11 @@ Can be adapted for different medical practice management systems
 4. **Format the output as a markdown table** with proper alignment and clear separation between columns.
 
 This prompt ensures accurate extraction of theatre list data for anaesthesia billing and practice management purposes.</div>
-            <button class="copy-btn" onclick="copyToClipboard('theatrePrompt')">📋 Copy Prompt</button>
         </div>
 
         <div class="prompt-box">
             <div class="prompt-title">💰 Invoice Description Generator</div>
+            <button class="copy-btn" onclick="copyToClipboard('invoicePrompt')" style="margin-bottom: 15px;">📋 Copy Prompt</button>
             <div class="prompt-text" id="invoicePrompt">Please help me create professional invoice descriptions for anaesthesia services. Based on the patient details and procedure information I provide, generate:
 
 - Professional service description
@@ -216,11 +233,11 @@ This prompt ensures accurate extraction of theatre list data for anaesthesia bil
 - Health fund claiming details
 
 Format it ready for Xero invoice entry. Patient details: [ADD PATIENT INFO HERE]</div>
-            <button class="copy-btn" onclick="copyToClipboard('invoicePrompt')">📋 Copy Prompt</button>
         </div>
 
         <div class="prompt-box">
             <div class="prompt-title">🔍 Health Fund Verification</div>
+            <button class="copy-btn" onclick="copyToClipboard('healthFundPrompt')" style="margin-bottom: 15px;">📋 Copy Prompt</button>
             <div class="prompt-text" id="healthFundPrompt">Please help me verify and format health fund information for accurate billing:
 
 Health Fund Details: [PASTE EXTRACTED INFO HERE]
@@ -231,7 +248,6 @@ Please provide:
 - Any special billing requirements
 - Estimated processing timeframes
 - Contact information for queries</div>
-            <button class="copy-btn" onclick="copyToClipboard('healthFundPrompt')">📋 Copy Prompt</button>
         </div>
 
         <div class="quick-links">
