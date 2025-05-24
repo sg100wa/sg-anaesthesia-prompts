@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,7 +109,7 @@
         <div class="subtitle">AI-Powered Practice Automation</div>
         
         <div class="usage-note">
-            <strong>📱 How to use:</strong> Click "Copy Prompt" → Open ChatGPT/Claude mobile app → Paste prompt → Add your photo → Get structured data for Xero!
+            <strong>📱 How to use:</strong> Click "Copy Prompt" → Open ChatGPT/Claude mobile app → Paste prompt → Add your photo/document → Get structured data for Xero!
         </div>
 
         <div class="prompt-box">
@@ -167,6 +166,44 @@ Covers Medicare and private health insurance data extraction
 Can be adapted for different medical practice management systems
 </div>
             <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
+        </div>
+
+        <div class="prompt-box">
+            <div class="prompt-title">🏥 Theatre List Data Extraction</div>
+            <div class="prompt-text" id="theatrePrompt">Extract patient data from a hospital theatre list document and organize it into a structured table.
+
+**Instructions:**
+1. Create a table with the following column headers:
+   - **LastName** - Patient's surname only
+   - **FirstName** - Patient's given name only (no middle names)
+   - **ContactName** - Patient's full name (FirstName + LastName)
+   - **Email** - Patient's email address
+   - **ContactNumber** - Patient's primary contact number (mobile preferred)
+   - **InvoiceDate** - Today's date in DD/MM/YYYY format
+   - **Health Fund** - Insurance provider and policy number if available
+   - **Procedure** - Full procedure description as listed
+   - **Surgeon** - The primary operating surgeon (found in document header, NOT the referring doctor or assistant)
+   - **DueDate** - Date of surgery in DD/MM/YYYY format
+
+2. **Key Points to Remember:**
+   - The **primary surgeon** is listed in the document header/title (e.g., "Theatre List - [Date] - [Surgeon Name]")
+   - The "Ref:" field contains the referring doctor, NOT the operating surgeon
+   - The "Assist." field contains the surgical assistant, NOT the primary surgeon
+   - Use the actual surgery date for DueDate, not today's date
+   - Include one row per patient
+   - Extract data exactly as presented in the source document
+
+3. **Data Sources within each patient entry:**
+   - Patient name: Usually at the start of each patient block
+   - Contact details: Look for M: (mobile), E: (email) fields
+   - Insurance: Listed as the fund name and policy number
+   - Procedure: The main surgical procedure being performed
+   - Surgery date: The admission date listed for each patient
+
+4. **Format the output as a markdown table** with proper alignment and clear separation between columns.
+
+This prompt ensures accurate extraction of theatre list data for anaesthesia billing and practice management purposes.</div>
+            <button class="copy-btn" onclick="copyToClipboard('theatrePrompt')">📋 Copy Prompt</button>
         </div>
 
         <div class="prompt-box">
