@@ -117,169 +117,54 @@
             <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
 
-# AUSTRALIAN MEDICAL STICKER DATA EXTRACTION PROMPT v2.0
+Patient Data Extraction Prompt
+Purpose
+This prompt is designed to extract patient information from medical stickers/labels and organize it into a structured format for anaesthesia billing and practice management.
+Prompt Template
+"Extract patient data from these medical stickers into a table with the following columns:
+| Title | First name | Last name | DOB | Address | Suburb | State | Postcode | Phone | Email | Procedure | Medicare No | Medicare | Start Time | End Time | Bill Type | Health Insurance | HI Number | Workcover Name | Workcover Claim No | DVA No |
+Important formatting requirements:
 
-## CORE INSTRUCTION
-Extract ALL patient data from medical stickers and create a table with these EXACT column headers:
-| First Name | Surname | Patient Name | Medicare Number | DOB | Health Fund | Member Number | Gender | Address | Surgeon | Notes |
+One row per patient
+Leave columns blank if information is missing or not visible
+For Medicare: Split the Medicare number (e.g., "6153939841/3") into:
 
----
+Medicare No: The main number only (6153939841)
+Medicare: The reference digit only (3)
 
-## CRITICAL NAME PARSING STRATEGY
 
-### STEP 1: LOCATE THE PRIMARY NAME SECTION
-- **Identify the main patient name block** (usually largest text, bold, or clearly separated from other data)
-- **Ignore secondary references** (like "Dr:" labels, contact names, guarantor info)
-- **Focus on the patient identifier section** only
+For Health Insurance: Look for fund names including but not limited to:
 
-### STEP 2: DETERMINE NAME FORMAT PATTERN
-**Australian medical systems typically use these formats:**
+HBF (Health Benefits Fund - WA)
+NIB (National Independent Benefits)
+BUPA
+Medibank Private
+AHM
+GMHBA
+Teachers Health
+Police Health
+Defence Health
+Phoenix Health
+HCF (Hospital Contributions Fund - NSW)
+CUA Health
+Frank Health
+Peoplecare
+RT Health
+CBHS (Commonwealth Bank Health Society)
+Any other 2-4 letter abbreviations or full health fund names
 
-1. **SURNAME, FIRST MIDDLE** (most common)
-   - Example: "SMITH, JOHN DAVID" → Surname: SMITH, First Name: JOHN DAVID
 
-2. **SURNAME** (line 1) **FIRST MIDDLE** (line 2)
-   - Example: Line 1: "SMITH" Line 2: "JOHN DAVID" → Surname: SMITH, First Name: JOHN DAVID
+For HI Number: Extract the health fund member number that appears after the fund name
+Extract ALL visible information, even if it seems incomplete or partially obscured
+Use exact spelling and formatting as shown on the stickers
 
-3. **FIRST MIDDLE SURNAME** (single line, less common)
-   - Example: "JOHN DAVID SMITH" → Surname: SMITH, First Name: JOHN DAVID
+Please examine the image carefully for all text including small print, abbreviations, codes, and partial information before creating the table."
+Usage Notes
 
-### STEP 3: APPLY PARSING LOGIC
-**Priority Order for Name Identification:**
-
-1. **COMMA RULE** (highest priority): If comma present, text before comma = Surname, text after = First Name(s)
-2. **LINE BREAK RULE**: If multi-line with no comma, first line is typically Surname in Australian systems
-3. **CONTEXT CLUES**: Look for labels like "Family Name:", "Surname:", "Given Name:"
-4. **CULTURAL AWARENESS**: Consider multicultural Australian naming conventions (hyphenated names, multiple given names)
-
-### STEP 4: VALIDATION CHECKS
-- **Does the parsing make logical sense?** (Common Australian surnames vs given names)
-- **Are there obvious contradictions?** (e.g., clearly feminine name parsed as masculine)
-- **Cross-reference with other patient data** (age/gender indicators)
-
----
-
-## MEDICARE NUMBER EXTRACTION
-
-### STANDARD FORMAT: XXXXXXXXXX/X
-- **10 digits + forward slash + 1 check digit**
-- **Total length: 12 characters including slash**
-
-### LOCATION STRATEGIES:
-1. **Direct Medicare labels**: "Medicare:", "MC:", "Medicare No:"
-2. **Barcode sections**: Numbers below/above barcodes
-3. **UR numbers**: Often contain first 6-10 digits of Medicare number
-4. **Reference numbers**: May be partial Medicare numbers
-5. **Cross-reference**: Compare similar number patterns across sticker sections
-
-### VALIDATION:
-- Must be exactly 11 characters (10 digits + slash + 1 digit)
-- Slash must be in position 11
-- No letters or special characters except the slash
-
----
-
-## COMPREHENSIVE DATA EXTRACTION
-
-### DATE OF BIRTH PATTERNS:
-- DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY
-- "Born:", "DOB:", "Date of Birth:"
-- Age calculations (extract from "25Y/M" format if DOB not visible)
-
-### GENDER IDENTIFICATION:
-- M/F, Male/Female, (M)/(F)
-- Age indicators: "25Y/M", "30Y/F"
-- Title clues: Mr/Mrs/Ms (use cautiously)
-
-### HEALTH FUND DETECTION:
-**Australian Private Health Insurers:**
-- HBF, Medibank, BUPA, NIB, HCF, Peoplecare, Defence Health
-- Look for: Fund name, member numbers, policy numbers
-- "Private", "PHI", or health fund logos
-
-### ADDRESS EXTRACTION:
-- **Australian format**: Street, Suburb, State, Postcode
-- **State abbreviations**: WA, NSW, VIC, QLD, SA, TAS, NT, ACT
-- **Postcode**: 4-digit number
-- **Unit/apartment numbers**: Look for "U", "UNIT", apartment numbers
-
-### MEDICAL PROFESSIONAL IDENTIFICATION:
-- "Dr:", "Doctor:", "Surgeon:", "Consultant:"
-- Name formats: "Dr. SMITH", "SMITH, Dr", "Dr JOHN SMITH"
-- Specialty indicators: "Anaesthetist", "Surgeon", etc.
-
----
-
-## ADVANCED EXTRACTION TECHNIQUES
-
-### BARCODE INTEGRATION:
-- Numbers below barcodes often contain patient identifiers
-- UR numbers frequently encode Medicare number portions
-- ADM numbers may correlate with health fund member numbers
-
-### CROSS-REFERENCING:
-- **Verify consistency**: Does age match DOB? Gender indicators align?
-- **Number patterns**: Do similar numbers appear in multiple locations?
-- **Address validation**: Do suburb and postcode match Australian standards?
-
-### AMBIGUITY HANDLING:
-- **Uncertain name parsing**: Note "Name order uncertain - verify with source"
-- **Partial data**: Extract what's available, note missing fields
-- **Multiple interpretations**: Choose most logical based on Australian healthcare conventions
-- **Contradictory information**: Flag discrepancies in Notes column
-
----
-
-## QUALITY CONTROL CHECKLIST
-
-### PRE-EXTRACTION:
-□ Identified main patient name section (not doctor/contact names)
-□ Located all potential data fields on sticker
-□ Noted any unusual formatting or layout
-
-### POST-EXTRACTION:
-□ **Name Logic Check**: Surname/first name assignment makes sense
-□ **Medicare Format**: Follows XXXXXXXXXX/X pattern exactly
-□ **Australian Address**: State/postcode combinations are valid
-□ **Data Consistency**: Age, gender, dates align logically
-□ **Complete Capture**: All visible patient data extracted
-□ **Uncertainty Documentation**: Ambiguous fields noted in Notes
-
----
-
-## ERROR PREVENTION
-
-### COMMON MISTAKES TO AVOID:
-- **Mixing doctor names with patient names**
-- **Reversing surname/first name without comma indicators**
-- **Truncating Medicare numbers or adding extra digits**
-- **Confusing UR numbers with Medicare numbers**
-- **Mixing up multiple patients on same sticker sheet**
-
-### VERIFICATION STEPS:
-1. **Re-read the original sticker** after extraction
-2. **Check name parsing** against comma/line break rules
-3. **Validate Medicare number** format and length
-4. **Confirm address** follows Australian format
-5. **Review Notes** for any flagged uncertainties
-
----
-
-## OUTPUT FORMAT REQUIREMENTS
-
-### TABLE STRUCTURE:
-- Use exact column headers as specified
-- One row per patient
-- Fill empty fields with "N/A" if data not available
-- Use Notes column for uncertainties and additional context
-
-### NOTES COLUMN USAGE:
-- Formatting details: "Name order uncertain"
-- Additional identifiers: "UR: 123456", "ADM: 789012"
-- Data quality flags: "Medicare number partially obscured"
-- Context information: Age calculations, reference numbers
-
-**GOAL**: Maximum accuracy for Australian anaesthesia practice billing and patient management systems.
+This prompt works best with AI assistants that can analyze images
+Designed specifically for Australian medical billing requirements
+Covers Medicare and private health insurance data extraction
+Can be adapted for different medical practice management systems
 </div>
             <button class="copy-btn" onclick="copyToClipboard('extractionPrompt')">📋 Copy Prompt</button>
         </div>
