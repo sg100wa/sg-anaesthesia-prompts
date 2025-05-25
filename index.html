@@ -134,40 +134,45 @@
             <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
 
-**MEDICAL STICKER DATA EXTRACTION - COMPREHENSIVE PROMPT**
-
+MEDICAL STICKER DATA EXTRACTION - COMPREHENSIVE PROMPT
 Extract patient data from these medical stickers into a table. BEFORE creating any table, you MUST follow this systematic process:
-
-**STEP 1: COMPLETE VISUAL INVENTORY**
+STEP 1: COMPLETE VISUAL INVENTORY
 For each sticker, list every single line of text visible, including:
-- All patient demographic information
-- All numbers (long and short)
-- All abbreviations and codes
-- All partially visible or faded text
-- All small print text
 
-**STEP 2: SYSTEMATIC DATA MAPPING**
+All patient demographic information
+All numbers (long and short)
+All abbreviations and codes
+All partially visible or faded text
+All small print text
+
+STEP 2: SYSTEMATIC DATA MAPPING
 Only after completing Step 1, organize the data into this table format:
 | Title | First Name | Last Name | DOB | Address | Suburb | State | Postcode | Phone | Email | Procedure | Medicare No | Medicare | Start Time | End Time | Bill Type | Health Insurance | HI Number | Workcover Name | Workcover Claim No | DVA No |
+CRITICAL NAME EXTRACTION RULES:
 
-**CRITICAL EXAMINATION REQUIREMENTS:**
-- Scan systematically from top to bottom of each sticker - examine every single line
-- Check for partially visible, faded, or light text
-- Look for small print and abbreviations
-- Examine ALL numbers regardless of length
-- Check gender/age indicators like (17Y/M), (23Y/F) for title determination
+Australian medical labels use format: "SURNAME, FIRST NAME MIDDLE NAME(S)"
+The FIRST line of text is ALWAYS the surname (last name)
+The SECOND line contains first name and any middle names
+EXTRACT ONLY THE FIRST WORD from the second line as "First Name"
+IGNORE all middle names completely
+Use gender indicators (M/F) to determine Title: M = Mr, F = Ms/Miss
 
-**ESSENTIAL DATA LOCATION PATTERNS:**
-- Names: Australian format is "SURNAME, FIRST NAME" - surname appears first
-- Medicare: Split numbers like "6153939841/3" into main number (6153939841) and reference digit (3)
-- Health Insurance: Look for abbreviations like HBF, BUPA, NIB, etc. - they appear in consistent locations
-- HI Numbers: Health fund member numbers appear near the fund abbreviation
+EXAMPLE:
+If sticker shows:
+SMITH
+JOHN MICHAEL DAVID
+Extract as: First Name = "John", Last Name = "Smith" (ignore "Michael David")
+ESSENTIAL DATA LOCATION PATTERNS:
 
-**STEP 3: VERIFICATION PASS**
-After creating the table, re-examine each sticker against your extracted data to ensure no information was missed.
+Medicare: Split numbers like "6153939841/3" into main number (6153939841) and reference digit (3)
+Health Insurance: Look for abbreviations like HBF, BUPA, NIB, HCF, CBH
+HI Numbers: Health fund member numbers appear near the fund abbreviation
 
-**CRITICAL: Do not skip any steps. Information is frequently missed when rushing to create the table without systematic examination first.**
-</div>
+STEP 3: VERIFICATION PASS
+After creating the table, re-examine each sticker against your extracted data to ensure no information was missed and names follow the extraction rules.
+CRITICAL: Do not skip any steps. Always extract ONLY the first word from the first name line, ignoring any middle names.Retry
+        
+
         </div>
 
         <div class="prompt-box">
