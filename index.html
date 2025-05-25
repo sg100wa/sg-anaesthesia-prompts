@@ -134,70 +134,39 @@
             <div class="prompt-title">📋 Patient Sticker Data Extraction</div>
             <div class="prompt-text" id="extractionPrompt">Extract patient data from these medical stickers and create a table with separate columns for each field.
 
-Patient Data Extraction Prompt for Medical Stickers
-Extract patient data from these medical stickers into a table with the following columns:
-| Title | First name | Last name | DOB | Address | Suburb | State | Postcode | Phone | Email | Procedure | Medicare No | Medicare | Start Time | End Time | Bill Type | Health Insurance | HI Number | Workcover Name | Workcover Claim No | DVA No |
-CRITICAL EXAMINATION REQUIREMENTS:
+**MEDICAL STICKER DATA EXTRACTION - COMPREHENSIVE PROMPT**
 
-Scan systematically from top to bottom of each sticker - look at every single line of text
-Check for partially visible or faded text - some information may be light or partially obscured
-Look for small print and codes - health fund info is often in smaller text or abbreviated
-Examine ALL numbers - member numbers can appear anywhere on the sticker
-Check gender/age indicators like (17Y/M), (23Y/F) to determine appropriate titles (Mr/Ms/Dr/etc.)
+Extract patient data from these medical stickers into a table. BEFORE creating any table, you MUST follow this systematic process:
 
-IMPORTANT FORMATTING REQUIREMENTS:
-Names:
+**STEP 1: COMPLETE VISUAL INVENTORY**
+For each sticker, list every single line of text visible, including:
+- All patient demographic information
+- All numbers (long and short)
+- All abbreviations and codes
+- All partially visible or faded text
+- All small print text
 
-Australian medical stickers show names as "SURNAME, FIRST NAME" or "SURNAME MIDDLE, FIRST NAME"
-SURNAME appears first (before comma if present) - use only the PRIMARY surname, ignore middle names
-FIRST NAME is the first word after the comma - use only the first given name
-Examples:
+**STEP 2: SYSTEMATIC DATA MAPPING**
+Only after completing Step 1, organize the data into this table format:
+| Title | First Name | Last Name | DOB | Address | Suburb | State | Postcode | Phone | Email | Procedure | Medicare No | Medicare | Start Time | End Time | Bill Type | Health Insurance | HI Number | Workcover Name | Workcover Claim No | DVA No |
 
-"COHEN DOUGLAS, KHALIL AHMED" → First Name: KHALIL, Last Name: COHEN
-"SMITH, JOHN MICHAEL" → First Name: JOHN, Last Name: SMITH
+**CRITICAL EXAMINATION REQUIREMENTS:**
+- Scan systematically from top to bottom of each sticker - examine every single line
+- Check for partially visible, faded, or light text
+- Look for small print and abbreviations
+- Examine ALL numbers regardless of length
+- Check gender/age indicators like (17Y/M), (23Y/F) for title determination
 
+**ESSENTIAL DATA LOCATION PATTERNS:**
+- Names: Australian format is "SURNAME, FIRST NAME" - surname appears first
+- Medicare: Split numbers like "6153939841/3" into main number (6153939841) and reference digit (3)
+- Health Insurance: Look for abbreviations like HBF, BUPA, NIB, etc. - they appear in consistent locations
+- HI Numbers: Health fund member numbers appear near the fund abbreviation
 
+**STEP 3: VERIFICATION PASS**
+After creating the table, re-examine each sticker against your extracted data to ensure no information was missed.
 
-Medicare Numbers:
-
-Split Medicare numbers like "6153939841/3" into:
-
-Medicare No: The main number only (6153939841)
-Medicare: The reference digit only (3)
-
-
-
-Titles:
-
-Use gender indicators like (M), (F), (17Y/M), (23Y/F) to determine Mr/Ms/Dr/etc.
-
-Health Insurance:
-
-Look carefully for health fund abbreviations (often in small print):
-
-HBF (Health Benefits Fund - very common in WA/Perth)
-NIB, BUPA, Medibank Private, AHM, GMHBA
-Teachers Health, Police Health, Defence Health, Phoenix Health
-HCF, CUA Health, Frank Health, Peoplecare, RT Health, CBHS
-Any other 2-4 letter abbreviations or full health fund names
-
-
-
-HI Number:
-
-Extract the health fund member number - could be on a separate line, after the fund name, or integrated with other codes
-
-SCANNING PROCESS:
-
-Identify all text blocks on each sticker
-Find patient demographics (name, DOB, address)
-Locate Medicare numbers (long numbers with reference digits)
-Search specifically for health fund abbreviations (HBF, BUPA, etc.)
-Find corresponding member numbers near health fund names
-Check for any additional codes or identifiers
-Double-check for missed information before finalizing
-
-Extract ALL visible information, even if incomplete or partially obscured. Use exact spelling and formatting as shown on the stickers.
+**CRITICAL: Do not skip any steps. Information is frequently missed when rushing to create the table without systematic examination first.**
 </div>
         </div>
 
